@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const Joi=require("joi");
+const Models=require("../models/index")
 const helper = require("../helper/validation");
 const commonHelper = require("../helper/commonHelper");
 const argon2 = require("argon2");
@@ -216,4 +218,61 @@ module.exports=
             return res.status(500).json({message:"ERROR"})
           }
          },
+         userFetch:async(req,res)=>
+         {
+            try
+            {
+              const user=await Models.userModel.findAll()
+              if(!user)
+              {
+                return res.status(404).json({message:"USER NOT FOUND!"})
+              }
+              return res.status(200).json({message:"USER DATA:",user})
+            }
+            catch(error)
+            {
+                console.log(error)
+                return res.status(500).json({message:"ERROR",error})
+            }
+         },
+         editUserProfile:async(req,res)=>
+         {
+            try
+            { 
+              const userId=req.user.id;
+              const{name,email,phoneNumber,location}=req.body;
+              const user=await Models.userModel.findOne({where:{id:userId}})
+              if(!user)
+              {
+                return res.status(404).json({message:"USER NOT FOUND!"})
+              }
+              await Models.userModel.update({name,email,phoneNumber,location},{where:{id:userId}})
+              const userUpdate=await Models.userModel.findOne({where:{id:userId}})
+              return res.status(200).json({message:"USER EDIT",userUpdate})
+            }
+            catch(error)
+            {
+                console.log(error)
+                return res.status(500).json({message:"ERROR",error})
+            }
+         },
+         deleteUserProfile:async(req,res)=>
+         {
+            try
+            {
+              const userId=req.user.id;
+              const user=await Models.userModel.findOne({where:{id:userId}})
+              if(!user)
+              {
+                return res.status(404).json({message:"USER NOT FOUND"})
+              }
+              const deleteUser=await Models.userModel.destroy({where:{id:userId}})
+              return res.status(200).json({message:"USER DELETED BY ADMIN",deleteUser})
+            }
+            catch(error)
+            {
+                console.log(error)
+                return res.status(500).json({message:"ERROR",error})
+            }
+         }
 }

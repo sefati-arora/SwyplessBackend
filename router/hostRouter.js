@@ -26,4 +26,7 @@ router.post('/adminProfile',adminController.adminProfile)
 router.post('/EditAdminProfile',authentication,adminController.EditAdminProfile)
 router.post('/adminAccountDeleted',authentication,adminController.adminAccountDeleted)
 router.post('/fetchSingleBooking',authentication,hostController.fetchSingleBooking)
+router.post('/userFetch',authentication,adminController.userFetch)
+router.post('/editUserProfile',authentication,adminController.editUserProfile)
+router.post('/deleteUserProfile',authentication,adminController.deleteUserProfile)
 module.exports=router;
