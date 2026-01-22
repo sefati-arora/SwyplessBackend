@@ -274,6 +274,65 @@ login: async (req, res) => {
       return res.status(500).json({ message: "ERROR", error });
     }
   },
+  BookingEdit:async(req,res)=>
+  {
+     try
+     {
+      const userId=req.user.id;
+       const{bookingId, providerId,
+        activityID,
+        DateandTime,
+        duration,
+        meetingType,
+        location,
+        comment,
+        latitude,
+        longitude,}=req.body;
+        const user=await Models.userModel.findOne({where:{id:userId}})
+        if(!user)
+        {
+          return res.status(404).json({message:"USER NOT FOUND!"})
+        }
+        const booking=await Models.bookingModel.findOne({id:bookingId})
+        if(!booking)
+        {
+          return res.status(404).json({message:"BOOKING NOT FOUND!"})
+        }
+        const activity=await Models.activityModel.findOne({where:{id:activityID}})
+        if(!activity)
+        {
+          return res.status(404).json({message:"ACTIVITY NOT FOUND!"})
+        }
+        await Models.bookingModel.update({providerId,DateandTime,duration,meetingType,location,latitude,longitude,comment},
+          {where:{id:bookingId}})
+          const updateBooking=await Models.bookingModel.findOne({where:{id:bookingId}})
+          return res.status(200).json({message:"BOOKING UPDATE",updateBooking})
+     }
+     catch(error)
+     {
+      console.log(error)
+      return res.status(500).json({message:"ERROR",error})
+     }
+  },
+  bookingClear:async(req,res)=>
+  {
+    try
+    {
+      const{bookingId}=req.body;
+      const booking=await Models.bookingModel.findOne({where:{id:bookingId}})
+      if(!booking)
+      {
+        return res.status(404).json({message:"BOOKING NOT FOUND"})
+      }
+      const deleteBooking=await Models.bookingModel.destroy({where:{id:bookingId}})
+      return res.status(200).json({message:"booking clear",deleteBooking})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR",error})
+    }
+  },
   fetchBooking: async (req, res) => {
     try {
       const { bookingId } = req.body;

@@ -1,0 +1,1279 @@
+{
+   "swagger": "2.0",
+    "info": {
+        "title": "project name",
+        "description": "project description",
+        "version": "1.0"
+    },
+    "produces": [
+        "application/json"
+    ],
+     "basePath": "/",
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
+        }
+    },
+    "paths":{
+        "/api/login":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-login-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                        "name":"email",
+                        "in":"formData",
+                        "description":"ENTER YOUR EMAIL",
+                        "type":"string",
+                        "required":true,
+                        "value":"EMAIL"
+                     },
+                      {
+                        "name":"Password",
+                        "in":"formData",
+                        "description":"ENTER YOUR PASSWORD",
+                        "type":"string",
+                        "required":true,
+                        "value":"Password"
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "USER LOGIN SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/signUp":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-signUp-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                        "name":"name",
+                        "in":"formData",
+                        "description":"ENTER YOUR name",
+                        "type":"string",
+                        "required":true,
+                        "value":"NAME"
+                     },
+                     {
+                        "name":"email",
+                        "in":"formData",
+                        "description":"ENTER YOUR EMAIL",
+                        "type":"string",
+                        "required":true,
+                        "value":"EMAIL"
+                     },
+                      {
+                        "name":"Password",
+                        "in":"formData",
+                        "description":"ENTER YOUR PASSWORD",
+                        "type":"string",
+                        "required":true,
+                        "value":"Password"
+                     },
+                      {
+                        "name":"phoneNumber",
+                        "in":"formData",
+                        "description":"ENTER YOUR phoneNumber",
+                        "type":"string",
+                        "required":true,
+                        "value":"phoneNumber"
+                     },
+                      {
+                        "name":"location",
+                        "in":"formData",
+                        "description":"ENTER YOUR location",
+                        "type":"string",
+                        "required":true,
+                        "value":"LOCATION"
+                     },
+                      {
+                        "name": "profileImage",
+                        "in": "formData",
+                        "description": "Upload images",
+                        "required": false,
+                        "type": "file",
+                        "format": "binary",
+                        "maxLength": 5242880,
+                        "allowedMimeTypes": [
+                            "image/jpeg",
+                            "image/png"
+                        ]
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "USER SIGNUP SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/profileSetUp":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-profileSetUp-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                        "name":"age",
+                        "in":"formData",
+                        "description":"ENTER YOUR age",
+                        "type":"number",
+                        "required":true,
+                        "value":"AGE"
+                     },
+                     {
+                        "name":"tagLine",
+                        "in":"formData",
+                        "description":"ENTER YOUR TAGLINE",
+                        "type":"string",
+                        "required":true,
+                        "value":"TAGLINE"
+                     },
+                      {
+                        "name":"gender",
+                        "in":"formData",
+                        "description":"ENTER YOUR GENDER",
+                        "type":"string",
+                        "required":true,
+                        "value":"GENDER"
+                     },
+                      {
+                        "name":"shortBio",
+                        "in":"formData",
+                        "description":"ENTER YOUR SHORTBIO",
+                        "type":"string",
+                        "required":true,
+                        "value":"SHORT BIO"
+                     },
+                     {
+                        "name":"interests",
+                        "in":"formData",
+                        "description":"ENTER YOUR INTERESTS",
+                        "type":"string",
+                        "required":true,
+                        "value":"INTEREST"
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "USER PROFILE SET SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/editUserProfile":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-editUserProfile-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                        "name":"name",
+                        "in":"formData",
+                        "description":"ENTER YOUR name",
+                        "type":"string",
+                        "required":true,
+                        "value":"NAME"
+                     },
+                     {
+                        "name":"email",
+                        "in":"formData",
+                        "description":"ENTER YOUR EMAIL",
+                        "type":"string",
+                        "required":true,
+                        "value":"EMAIL"
+                     },
+                      {
+                        "name":"phoneNumber",
+                        "in":"formData",
+                        "description":"ENTER YOUR phoneNumber",
+                        "type":"string",
+                        "required":true,
+                        "value":"phoneNumber"
+                     },
+                      {
+                        "name":"location",
+                        "in":"formData",
+                        "description":"ENTER YOUR location",
+                        "type":"string",
+                        "required":true,
+                        "value":"LOCATION"
+                     },
+                      {
+                        "name": "profileImage",
+                        "in": "formData",
+                        "description": "Upload images",
+                        "required": false,
+                        "type": "file",
+                        "format": "binary",
+                        "maxLength": 5242880,
+                        "allowedMimeTypes": [
+                            "image/jpeg",
+                            "image/png"
+                        ]
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "USER PROFILE EDIT SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/fetchProfile":{
+           "get":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-fetchProfile-get",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "USER PROFILE FETCH SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/reSetPassword":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-reSetPassword-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                       {
+                        "name":"Password",
+                        "in":"formData",
+                        "description":"ENTER YOUR PASSWORD",
+                        "type":"string",
+                        "required":true,
+                        "value":"Password"
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PASSWORD RESET SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        
+          "/api/forgetPassword":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-forgetPassword-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                        "name":"Email",
+                        "in":"formData",
+                        "description":"ENTER YOUR EMAIL",
+                        "type":"string",
+                        "required":true,
+                        "value":"EMAIL"
+                     },
+                       {
+                        "name":"Password",
+                        "in":"formData",
+                        "description":"ENTER YOUR PASSWORD",
+                        "type":"string",
+                        "required":true,
+                        "value":"Password"
+                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PASSWORD CHANGE SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/accountDelete":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-accountDelete-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                   {
+
+                   }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " ACCOUNT DELETED!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/activityCreated":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-activityCreated-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                   {
+                     "name":"DateAndTime",
+                     "in":"formData",
+                     "description":"ENTER DateAndTime",
+                     "required":true,
+                     "type":"string",
+                     "value":"DateAndTime"
+                   },
+                    {
+                     "name":"Duration",
+                     "in":"formData",
+                     "description":"ENTER Duration",
+                     "required":true,
+                     "type":"string",
+                     "value":"Duration"
+                   },
+                    {
+                     "name":"hourlyRate",
+                     "in":"formData",
+                     "description":"ENTER hourlyRate",
+                     "required":true,
+                     "type":"string",
+                     "value":"hourlyRate"
+                   },
+                    {
+                     "name":"Tags",
+                     "in":"formData",
+                     "description":"ENTER Tags",
+                     "required":true,
+                     "type":"string",
+                     "value":"Tags"
+                   },
+                    {
+                     "name":"vibe",
+                     "in":"formData",
+                     "description":"ENTER vibe",
+                     "required":true,
+                     "type":"string",
+                     "value":"vibe"
+                   },
+                    {
+                     "name":"description",
+                     "in":"formData",
+                     "description":"ENTER description",
+                     "required":true,
+                     "type":"string",
+                     "value":"description"
+                   }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ACTIVITY ADDED SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+                 "/api/BookingCreation":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-BookingCreation-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                    {
+                     "name":"providerId",
+                     "in":"formData",
+                     "description":"ENTER providerId",
+                     "required":true,
+                     "type":"string",
+                     "value":"providerId"
+                   },
+                    {
+                     "name":"activityID",
+                     "in":"formData",
+                     "description":"ENTER activityID",
+                     "required":true,
+                     "type":"string",
+                     "value":"activityID"
+                   },
+                   {
+                     "name":"DateandTime",
+                     "in":"formData",
+                     "description":"ENTER DateAndTime",
+                     "required":true,
+                     "type":"string",
+                     "value":"DateAndTime"
+                   },
+                    {
+                     "name":"Duration",
+                     "in":"formData",
+                     "description":"ENTER Duration",
+                     "required":true,
+                     "type":"string",
+                     "value":"Duration"
+                   },
+                    {
+                     "name":"meetingType",
+                     "in":"formData",
+                     "description":"ENTER meetingType",
+                     "required":true,
+                     "type":"string",
+                     "value":"meetingType"
+                   },
+                    {
+                     "name":"location",
+                     "in":"formData",
+                     "description":"ENTER location",
+                     "required":true,
+                     "type":"string",
+                     "value":"location"
+                   },
+                    {
+                     "name":"comment",
+                     "in":"formData",
+                     "description":"ENTER comment",
+                     "required":true,
+                     "type":"string",
+                     "value":"comment"
+                   },
+                    {
+                     "name":"latitude",
+                     "in":"formData",
+                     "description":"ENTER latitude",
+                     "required":true,
+                     "type":"string",
+                     "value":"latitude"
+                   },
+                    {
+                     "name":"longitude",
+                     "in":"formData",
+                     "description":"ENTER longitude",
+                     "required":true,
+                     "type":"string",
+                     "value":"longitude"
+                   }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BOOKING CREATED SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+              "/api/BookingEdit":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-BookingEdit-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                     "name":"bookingId",
+                     "in":"formData",
+                     "description":"ENTER bookingId",
+                     "required":true,
+                     "type":"string",
+                     "value":"bookingId"
+                   },
+                    {
+                     "name":"providerId",
+                     "in":"formData",
+                     "description":"ENTER providerId",
+                     "required":true,
+                     "type":"string",
+                     "value":"providerId"
+                   },
+                    {
+                     "name":"activityID",
+                     "in":"formData",
+                     "description":"ENTER activityID",
+                     "required":true,
+                     "type":"string",
+                     "value":"activityID"
+                   },
+                   {
+                     "name":"DateandTime",
+                     "in":"formData",
+                     "description":"ENTER DateAndTime",
+                     "required":true,
+                     "type":"string",
+                     "value":"DateAndTime"
+                   },
+                    {
+                     "name":"Duration",
+                     "in":"formData",
+                     "description":"ENTER Duration",
+                     "required":true,
+                     "type":"string",
+                     "value":"Duration"
+                   },
+                    {
+                     "name":"meetingType",
+                     "in":"formData",
+                     "description":"ENTER meetingType",
+                     "required":true,
+                     "type":"string",
+                     "value":"meetingType"
+                   },
+                    {
+                     "name":"location",
+                     "in":"formData",
+                     "description":"ENTER location",
+                     "required":true,
+                     "type":"string",
+                     "value":"location"
+                   },
+                    {
+                     "name":"comment",
+                     "in":"formData",
+                     "description":"ENTER comment",
+                     "required":true,
+                     "type":"string",
+                     "value":"comment"
+                   },
+                    {
+                     "name":"latitude",
+                     "in":"formData",
+                     "description":"ENTER latitude",
+                     "required":true,
+                     "type":"string",
+                     "value":"latitude"
+                   },
+                    {
+                     "name":"longitude",
+                     "in":"formData",
+                     "description":"ENTER longitude",
+                     "required":true,
+                     "type":"string",
+                     "value":"longitude"
+                   }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BOOKING EDIT SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+           "/api/bookingClear":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-bookingClear-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                     "name":"bookingId",
+                     "in":"formData",
+                     "description":"ENTER bookingId",
+                     "required":true,
+                     "type":"string",
+                     "value":"bookingId"
+                   }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BOOKING CLEAR SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/fetchBooking":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-fetchBooking-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                  {
+                    "name":"bookingId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER BOOKING ID",
+                    "value":"BOOKINGID"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BOOKING FETCH SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/activityReview":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api- activityReview-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                    {
+                    "name":"activityId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER ACTIVITY ID",
+                    "value":"ACTIVITY ID"
+                  },
+                  {
+                    "name":"bookingId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER BOOKING ID",
+                    "value":"BOOKINGID"
+                  },
+                  {
+                    "name":"rating",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER rating",
+                    "value":"rating"
+                  },
+                  {
+                    "name":"message",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER message",
+                    "value":"message"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ACTIVITY REVIEW ADDED SUCCESSFULLY!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/countReview":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-countReview-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                    {
+                    "name":"activityId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER ACTIVITY ID",
+                    "value":"ACTIVITY ID"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "COUNT REVIEW!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/countRating":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-countRating-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                    {
+                    "name":"activityId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER ACTIVITY ID",
+                    "value":"ACTIVITY ID"
+                  },
+                   {
+                    "name":"rating",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER rating",
+                    "value":"rating"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "COUNT RATING!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/disputeCreate":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-disputeCreate-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                    {
+                    "name":"bookingId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER BOOKING ID",
+                    "value":"BOOKINGID"
+                  },
+                   {
+                    "name":"message",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER message",
+                    "value":"message"
+                  },
+                    {
+                        "name": "uploadImages",
+                        "in": "formData",
+                        "description": "Upload images",
+                        "required": false,
+                        "type": "file",
+                        "format": "binary",
+                        "maxLength": 5242880,
+                        "allowedMimeTypes": [
+                            "image/jpeg",
+                            "image/png"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DISPUTE CREATED!"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/activityDetails":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-activityDetails-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                    "name":"activityId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER ACTIVITY ID",
+                    "value":"ACTIVITY ID"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ACTIVITY DETAILS:"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/clearNotification":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-clearNotification-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                    "name":"notificationId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER notificationId",
+                    "value":"notificationId"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CLEAR NOTIFICATION:"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/reportCreation":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-reportCreation-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                    "name":"reportTo",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER reportTo",
+                    "value":"reportTo"
+                  },
+                     {
+                    "name":"reportFrom",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER reportFrom",
+                    "value":"reportFrom"
+                  },
+                     {
+                    "name":"comment",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER comment",
+                    "value":"comment"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "REPORT CREATION SUCCESSFULLY:"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/paymentCOD":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-paymentCOD-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                    "name":"bookingId",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER bookingId",
+                    "value":"bookingId"
+                  },
+                     {
+                    "name":"currency",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER currency",
+                    "value":"currency"
+                  },
+                     {
+                    "name":"Amount",
+                    "in":"formData",
+                    "type":"string",
+                    "required":true,
+                    "description":"ENTER Amount",
+                    "value":"Amount"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PAYMENT COD CREATED SUCCESSFULLY:"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/createStripe":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-createStripe-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                   
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "STRIPE CREATED SUCCESSFULLY:"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/createCard":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-createCard-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                     "name":"customerId",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER CUSTOMER ID",
+                     "value":"CUSTOMER ID"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CARD CREATED SUCCESSFULLY:"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+         "/api/getToken":{
+           "get":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-getToken-get",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                   
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET TOKEN :"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/cardList":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-cardList-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                     "name":"customerId",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER CUSTOMER ID",
+                     "value":"CUSTOMER ID"
+                  },
+                  {
+                     "name":"cardId",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER CARD ID",
+                     "value":"CARD ID"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CARD LIST CREATED :"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/createPayment":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-cardList-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                     "name":"customerId",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER CUSTOMER ID",
+                     "value":"CUSTOMER ID"
+                  },
+                  {
+                     "name":"currency",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER currency",
+                     "value":"currency"
+                  },
+                   {
+                     "name":"Amount",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER AMOUNT",
+                     "value":"AMOUNT"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PAYMENT CREATED :"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+          "/api/createPaymentIntent":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-createPaymentIntent-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                     "name":"customerId",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER CUSTOMER ID",
+                     "value":"CUSTOMER ID"
+                  },
+                  {
+                     "name":"currency",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER currency",
+                     "value":"currency"
+                  },
+                   {
+                     "name":"Amount",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER AMOUNT",
+                     "value":"AMOUNT"
+                  },
+                   {
+                     "name":"bookingId",
+                     "in":"formData",
+                     "type":"string",
+                     "required":true,
+                     "description":"ENTER BOOKING ID",
+                     "value":"BOOKING ID"
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PAYMENT CREATED :"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+           "/api/paymentHistroy":{
+           "post":{
+             "x-swagger-router-controller": "middleware-name1",
+                "operationId": "api-paymentHistroy-post",
+                "tags": [
+                    "Application User"
+                ],
+                "description": "",
+                "parameters":[
+                     {
+                   
+                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "TRANSACTION HISTORY  :"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+            "definitions": {}
+        
+    }
+
+}

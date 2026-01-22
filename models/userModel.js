@@ -43,7 +43,7 @@ module.exports=(Sequelize,sequelize,DataTypes)=>
             {
                 type:DataTypes.INTEGER,
                 allowNull:true,
-                defaultValue:0   //1 for member and 2 for host
+                defaultValue:0   //1 for member and 2 for host 3 for admin
             },
             age:
             {

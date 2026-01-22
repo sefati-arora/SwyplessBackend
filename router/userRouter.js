@@ -28,4 +28,6 @@ router.post('/cardList',authentication,userController.cardList)
 router.post('/createPayment',authentication,userController.createPayment)
 router.post('/createPaymentIntent',authentication,userController.createPaymentIntent)
 router.post('/paymentHistroy',authentication,userController.paymentHistroy)
+router.post('/BookingEdit',authentication,userController.BookingEdit)
+router.post('/bookingClear',authentication,userController.bookingClear)
 module.exports=router;
