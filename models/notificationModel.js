@@ -1,0 +1,41 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "notificationTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            senderId:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            receiverId:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            message:
+            {
+                type:DataTypes.TEXT,
+                allowNull:true
+            }
+        },
+        {
+            tableName:"notificationTable"
+        }
+    )
+}

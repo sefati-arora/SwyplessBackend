@@ -1,0 +1,34 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "activityImage",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            activityId:
+            {
+              type:Sequelize.UUID,
+              allowNull:true,
+              references:
+              {
+                model:"activityTable",
+                key:"id"
+              },
+              onUpdate:"CASCADE",
+              onDelete:"CASCADE"
+            },
+            uploadImage:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            },
+            GovtId:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            }
+        },
+        {
+            tableName:"activityImage"
+        }
+    )
+}

@@ -1,0 +1,41 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "reportTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            reportTo:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            reportFrom:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            comment:
+            {
+                type:DataTypes.TEXT(),
+                allowNull:true
+            }
+        },
+        {
+            tableName:"reportTable"
+        }
+    )
+}

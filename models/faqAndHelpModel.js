@@ -1,0 +1,22 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "faqAndHelpTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            question:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            },
+            answer:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            }
+        },
+        {
+            tableName:"faqAndHelpTable"
+        }
+    )
+}

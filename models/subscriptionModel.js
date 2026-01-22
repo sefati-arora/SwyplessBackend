@@ -1,0 +1,43 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "subscriptionTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            title:
+            {
+                type:DataTypes.STRING(),
+                allowNull:true
+            },
+            subscriptionType:
+            {
+                type:DataTypes.INTEGER,
+                allowNull:true,
+                defaultValue:0  //1 for weekly 2 for monthly,3 for yearly 
+            },
+            Amount:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            },
+            description:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            },
+            startDate:
+            {
+                type:DataTypes.DATE,
+                allowNull:true
+            },
+            endDate:
+            {
+                type:DataTypes.DATE,
+                allowNull:true
+            }
+        },
+        {
+            tableName:"subscriptionTable"
+        }
+    )
+}

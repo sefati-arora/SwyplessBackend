@@ -1,0 +1,54 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "chatTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            senderId:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            receiverId:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            lastMessageId:
+            {
+                type:DataTypes.INTEGER,
+               allowNull:true,
+               defaultValue:0
+            },
+            deletedLastMessage:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"messageTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            }
+        },
+        {
+            tableName:"chatTable"
+        }
+    )
+}

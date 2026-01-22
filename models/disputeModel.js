@@ -1,0 +1,46 @@
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "disputeTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+              userId:
+         {
+            type:Sequelize.UUID,
+            allowNull:true,
+            references:
+            {
+                model:"userTable",
+                key:"id"
+            },
+            onUpdate:"CASCADE",
+            onDelete:"CASCADE"
+         },
+         bookingId:
+         {
+           type:Sequelize.UUID,
+           allowNull:true,
+           references:
+           {
+            model:"bookingTable",
+            key:"id"
+           },
+           onUpdate:"CASCADE",
+           onDelete:"CASCADE"
+         },
+            uploadImages:
+            {
+                type:DataTypes.STRING(225),
+                allowNull:true
+            },
+            message:
+            {
+                type:DataTypes.TEXT,
+                allowNull:true
+            }
+        },
+        {
+            tableName:"disputeTable"
+        }
+    )
+}

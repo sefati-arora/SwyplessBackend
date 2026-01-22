@@ -1,0 +1,66 @@
+const { allow } = require('joi')
+
+module.exports=(Sequelize,sequelize,DataTypes)=>
+{
+    return sequelize.define(
+        "messageTable",
+        {
+            ...require('./core')(Sequelize,DataTypes),
+            senderId:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            reciverId:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            message:
+             {
+                type:DataTypes.STRING(225),
+                allowNull:true,
+            },
+            messageType:
+            {
+                type:DataTypes.STRING(),
+                allowNull:true
+            },
+            deletedBy:
+            {
+                type:Sequelize.UUID,
+                allowNull:true,
+                references:
+                {
+                    model:"userTable",
+                    key:"id"
+                },
+                onUpdate:"CASCADE",
+                onDelete:"CASCADE"
+            },
+            isRead:
+            {
+                type:DataTypes.INTEGER,
+                allowNull:true,
+                defaultValue:0 //1 for not read 2 for read
+            }
+        },
+        {
+            tableName:"messageTable"
+        }
+    )
+}
