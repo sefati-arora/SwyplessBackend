@@ -612,7 +612,7 @@ login: async (req, res) => {
       return res.status(500).json({message:"ERROR",error})
     }
   },
-   getToken: async (req, res) => {
+  getToken: async (req, res) => {
     try {
       const token = { id: "tok_visa" };
       console.log("TEST CARD", token.id);
@@ -622,7 +622,7 @@ login: async (req, res) => {
       return res.status(500).json({ message: "ERROR" });
     }
   },
-    cardList: async (req, res) => {
+  cardList: async (req, res) => {
     try {
       const paymentMethods = await stripe.paymentMethods.list({
         customer: req.user.customerId,
