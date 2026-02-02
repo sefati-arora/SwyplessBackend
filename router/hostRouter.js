@@ -42,4 +42,8 @@ router.post('/faqEdit',authentication,adminController.faqEdit)
 router.post('/faqDeleted',authentication,adminController.faqDeleted)
 router.post('/fetchFaq',authentication,adminController.fetchFaq)
 router.post('/faqView',authentication,adminController.faqView)
+router.post('/fetchDataHost',authentication,adminController.fetchDataHost)
+router.post('/deleteHost',authentication,adminController.deleteHost)
+router.post('/fetchSingleHost',authentication,adminController.fetchSingleHost)
+router.post('/editHost',authentication,adminController.editHost)
 module.exports=router;

@@ -408,6 +408,81 @@ module.exports = {
       return res.status(500).json({message:"ERROR",error})
     }
   },
+  fetchDataHost:async(req,res)=>
+  {
+    try
+    {
+      const host=await Models.userModel.findAll({where:{role:2}})
+      if(!host)
+      {
+        return res.status(404).json({message:"HOST NOT FOUND!"})
+      }
+      return res.status(200).json({message:"HOST DETAILS:",host})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR!",error})
+    }
+  },
+  deleteHost:async(req,res)=>
+  {
+    try
+    {
+       const{id}=req.body;
+       const host=await Models.userModel.findOne({where:{id,role:2}})
+       if(!host)
+       {
+        return res.status(404).json({message:"HOST NOT FOUND!"})
+       }
+       await Models.userModel.destroy({where:{id}})
+       const update=await Models.userModel.findOne({where:{id}})
+       return res.status(200).json({message:"DELETE HOST SUCCESSFULLY!",update})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR!",error})
+    }
+  },
+  fetchSingleHost:async(req,res)=>
+  {
+    try
+    {
+       const{id}=req.body;
+       const host=await Models.userModel.findOne({id})
+       if(!host)
+       {
+        return res.status(404).json({message:"HOST NOT FOUND!"})
+       }
+       return res.status(200).json({message:"HOST FETCH:",host})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR!",error})
+    }
+  },
+  editHost:async(req,res)=>
+  {
+    try
+    {
+      const{id,name,Email,phoneNumber,location}=req.body
+      const host=await Models.userModel.findOne({where:{id,role:2}})
+      if(!host)
+      {
+        return res.status(404).json({message:"HOST NOT FOUND!"})
+      }
+      await Models.userModel.update({name,Email,phoneNumber,location},{where:{id}})
+      const update=await Models.userModel.findOne({where:{id}})
+      return res.status(200).json({message:"EDIT PROFILE SUCCESSFULLY!",host})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR",error})
+    }
+  },
    dashBoardDetails:async(req,res)=>
    {
     try
