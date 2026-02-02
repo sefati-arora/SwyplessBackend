@@ -7,16 +7,7 @@ const cors = require("cors");
 app.use(cors("*"));
 require('./config/connectdb').connectdb();
 require('./models/index');
-const swaggerUi = require("swagger-ui-express");
-const socketHandler=require("socket.io");
-const http=require("http");
-const{Server}=require("socket.io");
-const server=http.createServer(app);
-const io=new Server(server,{cors:{origin:"*",methods:["GET","POST"]}});
-socketHandler(io);
-const router=require('./router/userRouter');
-const router1=require('./router/hostRouter');
-const indexRouter=require("./router/index")
+app.use("/images", express.static(path.join(__dirname, "public/images")));
  app.set("view engine", "ejs");
   app.set("views", path.join(__dirname, "views"));
 app.use(express.json());
@@ -28,6 +19,16 @@ app.use(
     tempFileDir: "/tmp/",
   })
 );
+const swaggerUi = require("swagger-ui-express");
+const socketHandler=require("socket.io");
+const http=require("http");
+const{Server}=require("socket.io");
+const server=http.createServer(app);
+const io=new Server(server,{cors:{origin:"*",methods:["GET","POST"]}});
+socketHandler(io);
+const router=require('./router/userRouter');
+const router1=require('./router/hostRouter');
+const indexRouter=require("./router/index")
 const swaggerOptions = {
     explorer: true,
     swaggerOptions: {

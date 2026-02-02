@@ -248,15 +248,23 @@ module.exports = {
   },
   editUserProfile: async (req, res) => {
     try {
-      const {id, name, email, phoneNumber, location } = req.body;
+      const {id, name, Email, phoneNumber, location } = req.body;
       const user = await Models.userModel.findOne({ where: { id} });
       if (!user) {
         return res.status(404).json({ message: "USER NOT FOUND!" });
       }
-      await Models.userModel.update(
-        { name, email, phoneNumber, location },
-        { where: { id } },
-      );
+       const file = req.files?.profileImage;
+            const path = await commonHelper.fileUpload(file);
+            await Models.userModel.update(
+              {
+                name,
+                Email,
+                phoneNumber,
+                location,
+                profileImage: path,
+              },
+              { where: { id } },
+            );
       const userUpdate = await Models.userModel.findOne({
         where: { id },
       });
