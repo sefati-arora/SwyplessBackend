@@ -14,17 +14,17 @@ module.exports = {
   adminLogin: async (req, res) => {
     try {
       const schema = Joi.object({
-        Email: Joi.string().required(),
-        password: Joi.string().required(),
+       phoneNumber:Joi.string().required(),
+       countryCode:Joi.string().required()
       });
       const payload = await helper.validationJoi(req.body, schema);
-      const { Email, password } = payload;
-      const hash = await argon2.hash(password);
-      const admin = await Models.userModel.create({ Email, password: hash });
-      const adminUpdate = await Models.userModel.update(
+      const { phoneNumber,countryCode} = payload;
+      const admin = await Models.userModel.create({ phoneNumber,countryCode });
+      await Models.userModel.update(
         { role: 3 },
         { where: { id: admin.id } },
       );
+      const adminUpdate = await Models.userModel.findOne({where:{id:admin.id}})
       const token = jwt.sign({ id: admin.id }, process.env.SECRET_KEY);
       return res
         .status(200)
@@ -35,46 +35,42 @@ module.exports = {
     }
   },
   adminProfile: async (req, res) => {
-    try {
-      const schema = Joi.object({
-        name: Joi.string().required(),
-        Email: Joi.string().required(),
-        password: Joi.string().required(),
-        phoneNumber: Joi.string().required(),
-        location: Joi.string().required(),
-      });
-      const payload = await helper.validationJoi(req.body, schema);
-      const { name, Email, password, phoneNumber, location } = payload;
-      const hash = await argon2.hash(password);
-      const file = req.files?.profileImage;
-      const path = await commonHelper.fileUpload(file);
-      const admin = await Models.userModel.create({
-        name,
-        Email,
-        password: hash,
-        phoneNumber,
-        location,
-        profileImage: path,
-      });
-      const phone = `+91${phoneNumber}`;
-      const otp = await otpManager.sendOTP(phone);
-      console.log(otp);
-      const token = jwt.sign({ id: admin.id }, process.env.SECRET_KEY);
-      const updateadmin = await Models.userModel.update(
-        { role: 3 },
-        { where: { id: admin.id } },
-      );
-      return res
-        .status(200)
-        .json({ message: "ADMIN PROFILE", updateadmin, token, admin });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "admin profile", error });
+  try {
+   
+    const adminId = req.user.id;
+    const { name, Email, location } = req.body;
+
+    const admin = await Models.userModel.findOne({
+      where: { id: adminId, role: 3 },
+    });
+
+    if (!admin) {
+      return res.status(404).json({ message: "ADMIN NOT FOUND!" });
     }
-  },
+    const file=req.files?.profileImage;
+    const path=await commonHelper.fileUpload(file);
+    await Models.userModel.update(
+      { name, Email, location , profileImage:path},
+      { where: { id: adminId } }
+    );
+
+    const updatedAdmin = await Models.userModel.findOne({
+      where: { id: adminId },
+    });
+
+    return res.status(200).json({
+      message: "ADMIN PROFILE COMPLETED",
+      updatedAdmin,
+    });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "admin profile error", error });
+  }
+},
   EditAdminProfile: async (req, res) => {
     try {
-      const adminId = req.admin.id;
+      const adminId = req.user.id;
       const { name, Email, phoneNumber, location } = req.body;
       const admin = await Models.userModel.findOne({ where: { id: adminId } });
       if (!admin) {
@@ -118,21 +114,7 @@ module.exports = {
       return res.status(500).json({ message: "ERROR", error });
     }
   },
-  faqAndHelp: async (req, res) => {
-    try {
-      const schema = Joi.object({
-        question: Joi.string().required(),
-        answer: Joi.string().required(),
-      });
-      const payload = await helper.validationJoi(req.body, schema);
-      const { question, answer } = payload;
-      const faq = await Models.faqAndHelpModel.create({ question, answer });
-      return res.status(200).json({ message: "FAQANDHELP:", faq });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "ERROR", error });
-    }
-  },
+
   subscriptionCreated: async (req, res) => {
     try {
       const schema = Joi.object({
@@ -170,22 +152,58 @@ module.exports = {
       return res.status(500).json({ message: "ERROR", error });
     }
   },
+  fetchSubscription:async(req,res)=>
+  {
+    try
+    {
+      const sub=await Models.subscriptionModel.findAll()
+      if(!sub)
+      {
+        return res.status(404).json({message:"SUBSCRIPTION NOT FOUND!"})
+      }
+      return res.status(200).json({message:"SUBSCRIPTION FETCH!",sub})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR"})
+    }
+  },
+  SubscriptionView:async(req,res)=>
+  {
+      try
+      {
+        const{id}=req.body;
+        const subView=await Models.subscriptionModel.findOne({where:{id}})
+        if(!subView)
+        {
+          return res.status(404).json({message:"SUB NOT FOUND!"})
+        }
+        return res.status(200).json({message:"SUBSCRIPTION VIEW",subView})
+
+      }
+      catch(error)
+      {
+        console.log(error)
+        return res.status(500).json({message:"ERROR",error})
+      }
+  },
   subscriptionEdit: async (req, res) => {
     try {
-      const { subscriptionId, title, Amount, description, subscriptionType } =
+      const { id, title, Amount, description, subscriptionType } =
         req.body;
       const sub = await Models.subscriptionModel.findOne({
-        where: { id: subscriptionId },
+        where: { id},
       });
       if (!sub) {
         return res.status(200).json({ message: "SUBSCRIPTION NOT FOUND!" });
       }
       await Models.subscriptionModel.update(
         { title, Amount, description, subscriptionType },
-        { where: { id: subscriptionId } },
+        { where: { id } },
       );
       const updatedSubscription = await Models.subscriptionModel.findOne({
-        where: { id: subscriptionId },
+        where: { id },
       });
       return res
         .status(200)
@@ -197,15 +215,16 @@ module.exports = {
   },
   subscriptionDeleted: async (req, res) => {
     try {
-      const { subscriptionId } = req.body;
+      const {id} = req.body;
+      console.log(">>",req.body)
       const sub = await Models.subscriptionModel.findOne({
-        where: { id: subscriptionId },
+        where: { id },
       });
       if (!sub) {
         return res.status(404).json({ message: "SUBSCRIPTION NOT FOUND!" });
       }
       const deleteSub = await Models.subscriptionModel.destroy({
-        where: { id: subscriptionId },
+        where: { id},
       });
       return res
         .status(200)
@@ -229,18 +248,17 @@ module.exports = {
   },
   editUserProfile: async (req, res) => {
     try {
-      const userId = req.user.id;
-      const { name, email, phoneNumber, location } = req.body;
-      const user = await Models.userModel.findOne({ where: { id: userId } });
+      const {id, name, email, phoneNumber, location } = req.body;
+      const user = await Models.userModel.findOne({ where: { id} });
       if (!user) {
         return res.status(404).json({ message: "USER NOT FOUND!" });
       }
       await Models.userModel.update(
         { name, email, phoneNumber, location },
-        { where: { id: userId } },
+        { where: { id } },
       );
       const userUpdate = await Models.userModel.findOne({
-        where: { id: userId },
+        where: { id },
       });
       return res.status(200).json({ message: "USER EDIT", userUpdate });
     } catch (error) {
@@ -250,13 +268,13 @@ module.exports = {
   },
   deleteUserProfile: async (req, res) => {
     try {
-      const userId = req.user.id;
-      const user = await Models.userModel.findOne({ where: { id: userId } });
+      const {id} = req.body;
+      const user = await Models.userModel.findOne({ where: { id } });
       if (!user) {
         return res.status(404).json({ message: "USER NOT FOUND" });
       }
       const deleteUser = await Models.userModel.destroy({
-        where: { id: userId },
+        where: { id},
       });
       return res
         .status(200)
@@ -264,6 +282,24 @@ module.exports = {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "ERROR", error });
+    }
+  },
+  userView:async(req,res)=>
+  {
+    try
+    {
+      const{id}=req.body;
+      const user=await Models.userModel.findOne({where:{id}})
+      if(!user)
+      {
+        return res.status(404).json({message:"user not found!"})
+      }
+      return res.status(200).json({message:"USER FOUND!",user})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR!",error})
     }
   },
   fetchBooking:async(req,res)=>
@@ -301,13 +337,13 @@ module.exports = {
   {
     try
     {
-        const{bookingId}=req.body;
-        const booking=await Models.bookingModel.findOne({where:{id:bookingId}})
+        const{id}=req.body;
+        const booking=await Models.bookingModel.findOne({where:{id}})
         if(!booking)
         {
             return res.status(404).json({message:"BOOKING NOT FOUND"})
         }
-        const deleteBooking=await Models.bookingModel.destroy({where:{id:bookingId}})
+        const deleteBooking=await Models.bookingModel.destroy({where:{id}})
         return res.status(200).json({message:"BOOKING DELETED",deleteBooking})
     }
     catch(error)
@@ -320,39 +356,154 @@ module.exports = {
   {
     try
     {
-     const{bookingId,activityID,
+     const{id,
         DateandTime,
         duration,
         meetingType,
         location,
-        comment,
-        latitude,
-        longitude}=req.body;
-        const booking=await Models.bookingModel.findOne({where:{id:bookingId}})
+        comment}=req.body;
+        const booking=await Models.bookingModel.findOne({where:{id}})
         if(!booking)
         {
             return res.status(404).json({message:"BOOKING NOT FOUND"})
         }
-        const activity=await Models.activityModel.findOne({where:{id:activityID}})
-        if(!activity)
-        {
-            return res.status(404).json({message:"ACTIVITY NOT FOUND"})
-        }
-        await Models.bookingModel.update({activityID,
+        await Models.bookingModel.update({
         DateandTime,
         duration,
         meetingType,
         location,
-        comment,
-        latitude,
-        longitude},{where:{id:bookingId}})
-        const update=await Models.bookingModel.findOne({where:{id:bookingId}})
+        comment},{where:{id}})
+        const update=await Models.bookingModel.findOne({where:{id}})
         return res.status(200).json({message:"BOOKING UPDATED!",update})
     }
     catch(error)
     {
         console.log(error)
         return res.status(500).json({message:"ERROR",error})
+    }
+  },
+  hostFetch:async(req,res)=>
+  {
+    try
+    {
+      const hostId=req.user.id;
+      const host=await Models.userModel.findOne({where:{id:hostId}})
+      if(!host)
+      {
+        return res.status(404).json({message:"USER NOT FOUND!"})
+      }
+      return res.status(200).json({message:"HOST FETCH SUCCESSFULLY!",host})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR",error})
+    }
+  },
+   dashBoardDetails:async(req,res)=>
+   {
+    try
+    {
+       const user=await Models.userModel.count({where:{role:1}});
+       const booking=await Models.bookingModel.count({where:{isBookingCompleted:1}})
+       const host=await Models.userModel.count({where:{role:2}})
+       return res.status(200).json({message:"DASHBOARD DETAILS:",user,booking,host})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(200).json({message:"ERROR!",error})
+    }
+   },
+     faqAndHelp: async (req, res) => {
+    try {
+      const schema = Joi.object({
+        question: Joi.string().required(),
+        answer: Joi.string().required(),
+      });
+      const payload = await helper.validationJoi(req.body, schema);
+      const { question, answer } = payload;
+      const faq = await Models.faqAndHelpModel.create({ question, answer });
+      return res.status(200).json({ message: "FAQANDHELP:", faq });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "ERROR", error });
+    }
+  },
+  faqEdit:async(req,res)=>
+  {
+    try
+    {
+     const{id,question,answer}=req.body;
+      const faqCreation=await Models.faqAndHelpModel.findOne({where:{id}})
+      if(!faqCreation)
+      {
+        return res.status(404).json({message:"FAQ NOT FOUND!"})
+      }
+      await Models.faqAndHelpModel.update({
+        question,answer
+      },{where:{id}})
+      const update=await Models.faqAndHelpModel.findOne({where:{id}})
+      return res.status(200).json({message:"FAQ UPDATED!",update})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR",error})
+    }
+  },
+  faqDeleted:async(req,res)=>
+  {
+    try
+    {
+      const{id}=req.body;
+      const faqDeleted=await Models.faqAndHelpModel.findOne({where:{id}})
+      if(!faqDeleted)
+      {
+        return res.status(404).json({message:"FAQ NOT FOUND!"})
+      }
+      const deleteFaq=await Models.faqAndHelpModel.destroy({where:{id}})
+      return res.status(200).json({message:"FAQ DELETED!",faqDeleted,deleteFaq})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR!",error})
+    }
+  },
+  fetchFaq:async(req,res)=>
+  {
+    try
+    {
+      const faq=await Models.faqAndHelpModel.findAll()
+      if(!faq)
+      {
+        return res.status(404).json({message:"FAQ NOT FOUND"})
+      }
+      return res.status(200).json({message:"FETCH FAQ:",faq})
+    }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR",error})
+    }
+  },
+  faqView:async(req,res)=>
+  {
+    try
+    {
+      const{id}=req.body;
+      const faqView=await Models.faqAndHelpModel.findOne({where:{id}})
+      if(!faqView)
+      {
+        return res.status(404).json({message:"FAQ NOT FOUND!"}) 
+      }
+      return res.status(200).json({message:"FAQ VIEW:",faqView})
+   }
+    catch(error)
+    {
+      console.log(error)
+      return res.status(500).json({message:"ERROR!",error})
     }
   }
 };

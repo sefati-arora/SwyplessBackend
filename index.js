@@ -3,6 +3,8 @@ const app=express();
 const PORT=4000;
 const fileUpload= require("express-fileupload");
 const path=require("path");
+const cors = require("cors");
+app.use(cors("*"));
 require('./config/connectdb').connectdb();
 require('./models/index');
 const swaggerUi = require("swagger-ui-express");
